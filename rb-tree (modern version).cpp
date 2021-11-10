@@ -11,6 +11,7 @@ struct Node {
 	int color; // 1 -> Red, 0 -> Black
 };
 
+
 typedef Node* NodePtr;
 
 // class RBTree implements the operations in Red Black Tree
@@ -85,14 +86,7 @@ private:
 		}
 	}
 
-	void deleteOrder(NodePtr node) {
-		if (node != TNULL)
-		{
-			deleteOrder(node->left);
-			deleteOrder(node->right);
-			this->deleteNode(node->data);
-		}
-	}
+
 
 	double averageKeyValue(NodePtr node){ //Здесь считаем среднее арифметическое
 		int value = 0;
@@ -362,7 +356,10 @@ public:
 	}
 
 	void clear() {
-		deleteOrder(this->root);
+		while (this->getRoot() != TNULL)
+		{
+			this->deleteNode(this->getRoot()->data);
+		}
 	}
 
 	// search the tree for the key k
@@ -535,26 +532,40 @@ public:
 		}
 	}
 
+	void virtPrint(NodePtr node, int spaces) {
+		if (node != TNULL)
+		{
+			virtPrint(node->right, spaces + 1);
+			for (int i = 1; i < spaces; i++)
+			{
+				cout << " ";
+			}
+			char temp;
+			(node->color == 0) ? (temp = 'b') : (temp = 'r');
+			cout << node->data << temp << endl;
+			virtPrint(node->left, spaces + 1);
+		}
+	}
+
 };
 
 int main() {
 	RBTree bst;
 
-	for (size_t i = 10; i > 0; i--)
-	{
-		bst.insert(i);
-	}
-	bst.prettyPrint();
-	for (size_t i = 0; i < 10; i++)
-	{
-		bst.deleteNode(2*i);
-	}
-	cout << bst.getRoot()->data << endl;
-	bst.prettyPrint();
-	//bst.insert(0);
-	//bst.insert(1);
-	//bst.insert(2);
+	bst.insert(8);
+	bst.insert(18);
+	bst.insert(5);
+	bst.insert(15);
+	bst.insert(17);
+	bst.insert(25);
+	bst.insert(40);
+	bst.insert(80);
 	//bst.prettyPrint();
+	bst.printAverageKeyValue();
+	bst.virtPrint(bst.getRoot(), 1);
+	
+	//bst.deleteNode(5);
 	
 	return 0;
+	
 }
