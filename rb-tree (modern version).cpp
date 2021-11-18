@@ -332,6 +332,11 @@ public:
 		root = TNULL;
 	}
 
+	~RBTree()
+	{
+		clear();
+	}
+
 	// Pre-Order traversal
 	// Node->Left Subtree->Right Subtree
 	void preorder() {
@@ -547,25 +552,26 @@ public:
 		}
 	}
 
+	bool checkKeyInTree(int key) {
+		return this->foundKey(key);
+	}
 };
 
 int main() {
 	RBTree bst;
-
-	bst.insert(8);
-	bst.insert(18);
-	bst.insert(5);
-	bst.insert(15);
-	bst.insert(17);
-	bst.insert(25);
-	bst.insert(40);
-	bst.insert(80);
-	//bst.prettyPrint();
+	for (size_t i = 0; i < 10; i++)
+	{
+		bst.insert(i);
+	}
+	for (size_t i = 0; i < 10; i++)
+	{
+		if (i % 3 == 0)bst.deleteNode(i);
+	}
+	
+	//bst.clear();
 	bst.printAverageKeyValue();
-	bst.virtPrint(bst.getRoot(), 1);
-	
-	//bst.deleteNode(5);
-	
+	bst.virtPrint(bst.getRoot(), 2);
+	cout << endl << bst.checkKeyInTree(1) << ' ' << bst.checkKeyInTree(14) << endl;
 	return 0;
 	
 }
